@@ -24,7 +24,7 @@ import json
 from threading import Thread
 import multiprocessing
 import hashlib
-import pystat_config
+import pystats_config
 import pystats_log
 
 
@@ -54,7 +54,7 @@ class StatsForwarder(object):
         print "BRD: forwarder init"
         self.queue = common_queue
         self.forwarders = {}
-        self.cfg = pystat_config.PyStatConfig()
+        self.cfg = pystats_config.PyStatConfig()
         if self.cfg.parsedyaml is None:
             print "BRD: cfg parsedyaml is None"
             return
@@ -337,7 +337,7 @@ class UDPServer(object):
 
 class StatsServer(object):
     def __init__(self):
-        self.cfg = pystat_config.PyStatConfig()
+        self.cfg = pystats_config.PyStatConfig()
         if self.cfg.parsedyaml:
             self.bind_ip = self.cfg.parsedyaml.get(
                 'bind_address',
