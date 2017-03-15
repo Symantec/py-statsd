@@ -15,6 +15,9 @@ class UDPClient(object):
         self.server_ip = server_ip
         self.server_port = server_port
 
+        print "UDPClient Socket connect [%s, %s]" % \
+            (self.server_ip, self.server_port)
+
         self.sock = socket.socket(socket.AF_INET,
                                   socket.SOCK_DGRAM)
 
@@ -29,7 +32,6 @@ def main():
 
     # <TODO>: exception catch.
     remote_port = int(os.environ.get("STATSD_REMOTE_PORT", 5090))
-
     client = UDPClient(remote_addr, remote_port)
 
     msgs = []
