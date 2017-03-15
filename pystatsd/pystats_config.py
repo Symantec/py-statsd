@@ -20,7 +20,7 @@ class PyStatConfig(object):
 
         # Check if file exists.
         if not os.path.exists(self.cfg_file):
-            print "No config file found"
+            print "No config file [%s] found" % self.cfg_file
             return
 
         try:
