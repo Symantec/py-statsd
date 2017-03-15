@@ -31,16 +31,22 @@ import pystats_log
 
 class TimerMonitor(Thread):
     DEFAULT_INTERVAL = 10
+
     def __init__(self, duration, metricsmgr):
         super(TimerMonitor, self).__init__()
         self.sleep_interval = duration
         self.metricsmgr = metricsmgr
+        self.pylog = pystats_log.Logger(name="TimerMonitor")
+        self.logger = self.pylog.logger
+        self.logger.info("TimerMonitor Initialized")
 
     def run(self):
-        pystats_log.print_msg("Timer Monitor start")
+        #pystats_log.print_msg("Timer Monitor start")
+        self.logger.debug("Timer Monitor Start")
         while True:
             time.sleep(self.sleep_interval)
-            pystats_log.print_msg("TimerMonitor Wokeup")
+            #pystats_log.print_msg("TimerMonitor Wokeup")
+            self.logger.debug("TimerMonitor: Wokeup")
             self.metricsmgr.forward_metrics()
 
 
@@ -51,16 +57,17 @@ class StatsForwarder(object):
     }
 
     def __init__(self, common_queue):
-        print "BRD: forwarder init"
         self.queue = common_queue
         self.forwarders = {}
+        self.pylog = pystats_log.Logger(name="StatsForwarder")
+        self.logger = self.pylog.logger
+
         self.cfg = pystats_config.PyStatConfig()
         if self.cfg.parsedyaml is None:
-            print "BRD: cfg parsedyaml is None"
+            self.logger.error("Init: No config parsed")
             return
 
         self.debug_mode = self.cfg.parsedyaml.get('debug_mode', True)
-        pystats_log.print_msg("StatsForwarder Initialized!")
 
         for forwarder in self.cfg.parsedyaml['forwarders'].keys():
             fwobj = self.cfg.parsedyaml['forwarders'][forwarder]
@@ -76,10 +83,10 @@ class StatsForwarder(object):
                                                       kafka_apikey,
                                                       kafka_tenant_id,
                                                       kafka_topic)
+        self.logger.info("Initialized")
 
     def start(self):
         while True:
-            print "BRD: forwarder in True"
             objdata = None
             try:
                 objdata = self.queue.get(timeout=StatsForwarder.TIMEOUT)
@@ -127,7 +134,6 @@ class TraceMetric(object):
     """
     Manage metric_type: TraceMetric
     """
-
     def __init__(self, jdata):
         self.metric_name = jdata['metric_name']
         self.metric_type = jdata['metric_type']
@@ -224,7 +230,7 @@ class CounterMetric(object):
 
     def display_metric_info(self):
         print "Name: %s, Type: %s, Counter: %d " % \
-         (self.metric_name, self.metric_type, self.metric_counter)
+            (self.metric_name, self.metric_type, self.metric_counter)
 
     def get_metric_info(self):
         metricobj = {}
@@ -245,13 +251,16 @@ class MetricsManager(object):
         self.metrics = {}
         self.queue = common_queue
         self.last_sent_trace = []
+        self.pylog = pystats_log.Logger(name="MetricMgr")
+        self.logger = self.pylog.logger
+        self.logger.info("Initialized")
 
     def init_metric(self, jdata):
         metric_name = jdata['metric_name']
         metric_type = jdata['metric_type']
 
         metric_cls = getattr(sys.modules['__main__'],
-                      MetricsManager.METRIC_TYPES[metric_type])
+                             MetricsManager.METRIC_TYPES[metric_type])
         self.metrics[metric_name] = metric_cls(jdata)
 
     def add_metric(self, jdata):
@@ -261,6 +270,8 @@ class MetricsManager(object):
             self.metrics[metric_name].update_metric(jdata)
         else:
             self.metrics[metric_name].update_metric(jdata)
+
+        self.logger.debug("Add Metric [%s]", metric_name)
 
     def display_metric_info(self, jdata):
         metric_name = jdata['metric_name']
