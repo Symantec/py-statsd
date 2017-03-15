@@ -105,8 +105,9 @@ class StatsForwarder(object):
                 continue
             tags[tag] = objdata['trace_info'][tag]
 
-        self.forwarders['kafka'].forward_metrics(
-            metric_name, value, tags, debug=self.debug_mode)
+        if self.forwarders.get('kafka', None) is not None:
+            self.forwarders['kafka'].forward_metrics(
+                metric_name, value, tags, debug=self.debug_mode)
 
     def forward_guage_metrics(self, objdata):
         metric_name = objdata['metric_name']
@@ -117,8 +118,9 @@ class StatsForwarder(object):
                 continue
             tags[tag] = objdata['guage_info'][tag]
 
-        self.forwarders['kafka'].forward_metrics(
-            metric_name, value, tags, debug=self.debug_mode)
+        if self.forwarders.get('kafka', None) is not None:
+            self.forwarders['kafka'].forward_metrics(
+                metric_name, value, tags, debug=self.debug_mode)
 
 
 class TraceMetric(object):
