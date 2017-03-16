@@ -45,17 +45,17 @@ class Logger(object):
             filemode='a')
 
         # Defined a stream handler.
-        #console = logging.StreamHandler()
-        #console.setLevel(logging.INFO)
+        console = logging.StreamHandler()
+        console.setLevel(logging.INFO)
 
-        #formatter = logging.Formatter(
-        #    '[%(asctime)s %(levelname)5s %(name)s]:  %(message)s',
-        #    datefmt="%m-%d-%y %H:%M")
+        formatter = logging.Formatter(
+           '[%(asctime)s %(levelname)5s %(name)s]:  %(message)s',
+           datefmt="%m-%d-%y %H:%M")
 
-        #console.setFormatter(formatter)
+        console.setFormatter(formatter)
 
         # Add handler to root logger
-        #logging.getLogger(name).addHandler(console)
+        logging.getLogger(name).addHandler(console)
 
         self.logger = logging.getLogger(name)
         Logger.logger = self.logger
