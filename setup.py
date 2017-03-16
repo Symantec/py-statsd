@@ -30,8 +30,8 @@ setup(
         ]
     },
     keywords='statsd',
-    packages=["pystats"],
-    data_files = [('/etc/pystat', ['pystats/etc/pystats/pystat.conf'])],
+    packages=["pystatsd"],
+    data_files = [('/etc/pystat', ['pystatsd/etc/pystats/pystat.conf'])],
     install_requires=['kafka-python',
                       'PyYAML']
 )
