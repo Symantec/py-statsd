@@ -26,7 +26,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'pystats = pystats.stats_server:main'
+            'pystatsd = pystatsd.stats_server:main'
         ]
     },
     keywords='statsd',
