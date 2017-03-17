@@ -26,12 +26,13 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'pystats = pystats.stats_server:main'
+            'pystatsd = pystatsd.stats_server:main'
         ]
     },
     keywords='statsd',
     packages=["pystatsd"],
-    data_files = [('/etc/pystat', ['pystatsd/etc/pystats/pystat.conf'])],
+    data_files = [('/etc/pystatsd', ['pystatsd/etc/pystats/pystat.conf']),
+                  ('/etc/init', ['pystatsd/etc/init/pystatsd.conf'])],
     install_requires=['kafka-python',
                       'PyYAML']
 )
