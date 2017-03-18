@@ -24,9 +24,15 @@ import json
 from threading import Thread
 import multiprocessing
 import hashlib
-import pystats_config
-import pystats_log
+try:
+    import pystatsd.pystats_config as pystats_config
+except ImportError:
+    import pystats_config
 
+try:
+    import pystatsd.pystats_log as pystats_log
+except ImportError:
+    import pystats_log
 
 
 class TimerMonitor(Thread):
@@ -53,7 +59,8 @@ class TimerMonitor(Thread):
 class StatsForwarder(object):
     TIMEOUT = 3
     FORWARDERS = {
-        'kafka': {'module': 'kafka_publisher', 'classname': 'KafkaPublisher'}
+        'kafka': {'module': 'pystatsd.kafka_publisher',
+                  'classname': 'KafkaPublisher'}
     }
 
     def __init__(self, common_queue):

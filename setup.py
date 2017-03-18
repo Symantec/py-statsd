@@ -10,7 +10,10 @@ setup(
     author="Behzad Dastur",
     author_email="bdastur@gmail.com",
     license='Apache Software License',
-    classifier=[
+    install_requires=[
+            'kafka-python',
+            'PyYAML'],
+    classifiers=[
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
@@ -23,7 +26,6 @@ setup(
         'Operating System :: POSIX :: Linux',
         'Operating System :: MacOS',
     ],
-
     entry_points={
         'console_scripts': [
             'pystatsd = pystatsd.stats_server:main'
@@ -31,8 +33,6 @@ setup(
     },
     keywords='statsd',
     packages=["pystatsd"],
-    data_files = [('/etc/pystatsd', ['pystatsd/etc/pystats/pystat.conf']),
-                  ('/etc/init', ['pystatsd/etc/init/pystatsd.conf'])],
-    install_requires=['kafka-python',
-                      'PyYAML']
+    data_files=[('/etc/pystatsd', ['pystatsd/etc/pystats/pystatsd.conf']),
+                ('/etc/init', ['pystatsd/etc/init/pystatsd.conf'])]
 )

@@ -3,7 +3,10 @@
 
 import socket
 import json
-import pystat_config
+try:
+    import pystats_config
+except ImportError:
+    import pystatsd.pystats_config as pystats_config
 
 class UDPClient(object):
     def __init__(self, server_ip, server_port):
@@ -21,7 +24,7 @@ class UDPClient(object):
 
 class PystatAgent(object):
     def __init__(self):
-        self.cfg = pystat_config.PyStatConfig()
+        self.cfg = pystats_config.PyStatConfig()
         if self.cfg.parsedyaml is not None:
             self.remote_addr = self.cfg.parsedyaml.get('bind_address',
                                                        'localhost')
