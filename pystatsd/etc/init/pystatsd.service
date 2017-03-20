@@ -1,5 +1,5 @@
 [Unit]
-Description=LMM Logging API 
+Description=LMM Logging API
 After=local-fs.target network-online.target
 
 [Service]
@@ -11,4 +11,3 @@ RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
-
