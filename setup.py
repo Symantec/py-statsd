@@ -34,5 +34,7 @@ setup(
     keywords='statsd',
     packages=["pystatsd"],
     data_files=[('/etc/pystatsd', ['pystatsd/etc/pystats/pystatsd.conf']),
+                ('/opt/pystatsd', ['pystatsd/opt/stats_server_stop']),
+                ('/usr/lib/systemd/system', ['pystatsd/etc/init/pystatsd.service']),
                 ('/etc/init', ['pystatsd/etc/init/pystatsd.conf'])]
 )
