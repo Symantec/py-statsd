@@ -1,0 +1,13 @@
+[Unit]
+Description=LMM Logging API
+After=local-fs.target network-online.target
+
+[Service]
+Restart=on-failure
+KillMode=process
+ExecStart=/usr/bin/pystatsd
+ExecReload=/bin/kill -HUP $MAINPID
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

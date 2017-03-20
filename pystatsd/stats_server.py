@@ -78,7 +78,9 @@ class StatsForwarder(object):
 
         for forwarder in self.cfg.parsedyaml['forwarders'].keys():
             fwobj = self.cfg.parsedyaml['forwarders'][forwarder]
-            mod = __import__(StatsForwarder.FORWARDERS[forwarder]['module'])
+            mod = __import__(StatsForwarder.FORWARDERS[forwarder]['module'],
+                             fromlist=('kafka_publisher'))
+
             classobj = getattr(
                 mod, StatsForwarder.FORWARDERS[forwarder]['classname'])
             if forwarder == "kafka":
