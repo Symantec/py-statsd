@@ -1,0 +1,8 @@
+#!/bin/bash
+
+pid=$(ps -ef | grep pystatsd| grep python | awk -F " " '{print $2}')
+echo $pid
+if [[ ! -z $pid ]]; then
+  /usr/bin/kill $pid
+fi
+
