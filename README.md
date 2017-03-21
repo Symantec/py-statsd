@@ -1,6 +1,6 @@
 # Pystatsd
 
-A simple daemon that runs on Python, and listens for statics like trace, counters, guages over UDP.
+A python daemon that listens for statistics like trace, counters, guages over UDP.
 It aggregates to pluggable forwarder services - eg. (Kafka)
 
 
